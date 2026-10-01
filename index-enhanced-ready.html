@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Stano's personal portfolio website">
+<meta name="theme-color" content="#07111f">
+<title>Stano | Web Developer & Creative</title>
+
+<style>
+:root{
+  --bg:#07111f;
+  --bg2:#0a1729;
+  --panel:rgba(16,31,52,.82);
+  --panel2:#11233b;
+  --text:#f7fbff;
+  --muted:#a9b7ca;
+  --accent:#38bdf8;
+  --accent2:#818cf8;
+  --line:rgba(100,145,190,.25);
+  --shadow:0 20px 60px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(56,189,248,.08),transparent 25%),
+    radial-gradient(circle at 90% 40%,rgba(129,140,248,.08),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit}
+.container{width:min(1120px,90%);margin:auto}
+
+header{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:20;
+  background:rgba(7,17,31,.78);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(100,145,190,.18);
+}
+.nav{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-weight:900;
+  font-size:1.5rem;
+  letter-spacing:.5px;
+}
+.logo span{color:var(--accent)}
+nav ul{display:flex;gap:26px;list-style:none}
+nav a{
+  color:#dbe7f5;
+  font-weight:700;
+  position:relative;
+  transition:.2s ease;
+}
+nav a:after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0;
+  height:2px;
+  background:var(--accent);
+  transition:.2s ease;
+}
+nav a:hover{color:var(--accent)}
+nav a:hover:after{width:100%}
+.menu{
+  display:none;
+  background:transparent;
+  border:0;
+  color:white;
+  font-size:1.7rem;
+  cursor:pointer;
+}
+
+.hero{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:120px 0 80px;
+  position:relative;
+  background:
+    radial-gradient(circle at 80% 25%,rgba(56,189,248,.16),transparent 30%),
+    radial-gradient(circle at 20% 80%,rgba(129,140,248,.14),transparent 32%);
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:65px;
+  align-items:center;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-size:.82rem;
+}
+.kicker:before{
+  content:"";
+  width:30px;
+  height:2px;
+  background:var(--accent);
+}
+h1{
+  font-size:clamp(3.2rem,7vw,6.3rem);
+  line-height:.95;
+  margin:18px 0 26px;
+  letter-spacing:-3px;
+}
+.gradient{
+  background:linear-gradient(90deg,var(--accent),#a5b4fc);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.lead{
+  font-size:1.16rem;
+  color:var(--muted);
+  max-width:650px;
+}
+.actions{
+  display:flex;
+  gap:13px;
+  flex-wrap:wrap;
+  margin-top:32px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:13px 20px;
+  border-radius:13px;
+  font-weight:850;
+  border:1px solid var(--line);
+  transition:.22s ease;
+  cursor:pointer;
+}
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--accent),#60a5fa);
+  color:#03101a;
+  border-color:transparent;
+}
+.btn.secondary{background:rgba(255,255,255,.025)}
+.btn.secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+.profile-wrap{position:relative}
+.profile{
+  width:min(350px,80vw);
+  aspect-ratio:1;
+  border-radius:50%;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  padding:8px;
+  box-shadow:0 25px 90px rgba(56,189,248,.2);
+  animation:float 5s ease-in-out infinite;
+}
+.profile-inner{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(56,189,248,.18),transparent 28%),
+    var(--panel);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:30px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.profile-inner strong{
+  display:block;
+  font-size:5rem;
+  line-height:1;
+  margin-bottom:8px;
+}
+.profile-inner p{color:var(--muted)}
+.orbit{
+  position:absolute;
+  width:390px;
+  height:390px;
+  border:1px dashed rgba(56,189,248,.25);
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.badge{
+  position:absolute;
+  padding:9px 13px;
+  border:1px solid var(--line);
+  background:rgba(13,26,45,.9);
+  backdrop-filter:blur(10px);
+  border-radius:999px;
+  font-weight:800;
+  font-size:.8rem;
+  box-shadow:var(--shadow);
+}
+.badge.one{top:12%;right:3%}
+.badge.two{bottom:13%;left:2%}
+
+section{padding:100px 0}
+.section-title{font-size:2.5rem;margin-bottom:10px;letter-spacing:-1px}
+.section-sub{color:var(--muted);margin-bottom:36px}
+.card{
+  background:linear-gradient(145deg,rgba(16,31,52,.9),rgba(9,22,39,.86));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:30px;
+  box-shadow:var(--shadow);
+}
+.card:hover{border-color:rgba(56,189,248,.35)}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.about-card p{color:#d7e1ed}
+.focus-list{
+  display:grid;
+  gap:12px;
+  margin-top:18px;
+}
+.focus-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#dce8f5;
+}
+.focus-item span{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 15px rgba(56,189,248,.7);
+}
+
+.skills{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.skill{
+  background:rgba(17,35,59,.78);
+  padding:21px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  transition:.22s ease;
+}
+.skill:hover{
+  transform:translateY(-4px);
+  border-color:rgba(56,189,248,.42);
+}
+.skill-icon{font-size:1.6rem;margin-bottom:9px}
+.skill b{display:block;margin-bottom:4px}
+.skill span{color:var(--muted);font-size:.94rem}
+
+.projects{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.project{
+  min-height:250px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.project .icon{font-size:2.2rem}
+.project h3{margin:12px 0 7px}
+.project p{color:var(--muted)}
+.tags{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.tag{
+  font-size:.78rem;
+  padding:5px 9px;
+  background:#172943;
+  border-radius:999px;
+  color:#c9eefe;
+  border:1px solid rgba(56,189,248,.1);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:25px;
+}
+.stat{
+  padding:18px;
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--line);
+  text-align:center;
+}
+.stat strong{display:block;font-size:1.55rem;color:var(--accent)}
+.stat span{color:var(--muted);font-size:.85rem}
+
+.contact{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+.contact-info{
+  display:grid;
+  gap:15px;
+  margin-top:22px;
+}
+.contact-link{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  color:#dbe7f5;
+  transition:.2s ease;
+}
+.contact-link:hover{
+  border-color:var(--accent);
+  transform:translateX(3px);
+}
+.contact-link small{
+  display:block;
+  color:var(--muted);
+}
+form{display:grid;gap:13px}
+input,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:11px;
+  border:1px solid var(--line);
+  background:#081526;
+  color:white;
+  outline:none;
+}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+textarea{min-height:145px;resize:vertical}
+.socials{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+.social{
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  color:#dbe7f5;
+  transition:.2s;
+}
+.social:hover{border-color:var(--accent);color:var(--accent)}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:30px 0;
+  color:var(--muted);
+  text-align:center;
+}
+
+.reveal{animation:up .7s ease both}
+@keyframes up{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+@media(max-width:850px){
+  nav ul{display:none}
+  .menu{display:block}
+  .hero-grid,.about-grid,.contact{grid-template-columns:1fr}
+  .hero{text-align:center}
+  .kicker{justify-content:center}
+  .lead{margin:auto}
+  .actions{justify-content:center}
+  .profile-wrap{margin-top:20px}
+  .projects{grid-template-columns:1fr}
+  .skills{grid-template-columns:repeat(2,1fr)}
+  .orbit{width:285px;height:285px}
+}
+@media(max-width:560px){
+  .nav{height:66px}
+  section{padding:75px 0}
+  h1{font-size:3.3rem;letter-spacing:-2px}
+  .skills,.stats{grid-template-columns:1fr}
+  .card{padding:22px}
+  .profile{width:250px}
+  .orbit{width:275px;height:275px}
+  .badge{font-size:.72rem}
+  .badge.one{right:0}
+  .badge.two{left:0}
+}
+
+.mobile-open{display:flex!important;flex-direction:column;position:absolute;right:5%;top:62px;background:#0d1a2d;padding:18px;border-radius:14px;border:1px solid rgba(100,145,190,.25);box-shadow:0 20px 50px rgba(0,0,0,.3);gap:16px!important}
+.mobile-open a{display:block}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="#home">Stano<span>.</span></a>
+    <nav>
+      <ul id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="menu" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main id="home">
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <div class="kicker">Welcome to my website</div>
+      <h1>Hi, I'm <span class="gradient">Stano.</span></h1>
+      <p class="lead">
+        I'm interested in technology and web development. I enjoy learning how to build
+        modern, responsive and user-friendly websites and turning ideas into digital experiences.
+      </p>
+
+      <div class="actions">
+        <a class="btn primary" href="#projects">🚀 View My Work</a>
+        <a class="btn secondary" href="#contact">✉ Contact Me</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong>Web</strong><span>Development</span></div>
+        <div class="stat"><strong>IT</strong><span>Technology</span></div>
+        <div class="stat"><strong>Creative</strong><span>Learning</span></div>
+      </div>
+    </div>
+
+    <div class="profile-wrap reveal">
+      <div class="orbit"></div>
+      <div class="profile">
+        <div class="profile-inner">
+          <div>
+            <strong>S</strong>
+            <p>Web Development<br>IT &amp; Technology</p>
+          </div>
+        </div>
+      </div>
+      <div class="badge one">💻 Web Developer</div>
+      <div class="badge two">✨ Creative Mind</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">About Me</h2>
+    <p class="section-sub">A little about who I am.</p>
+
+    <div class="about-grid">
+      <div class="card about-card">
+        <p>
+          Hi, I'm Stano. Welcome to my personal website! I'm a passionate and motivated
+          person who enjoys learning new things, developing my skills, and connecting with
+          people. I'm always looking for new opportunities to grow, explore my interests,
+          and turn my ideas into reality.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>My Focus</h3>
+        <p style="color:var(--muted);margin-top:10px">
+          I'm currently focused on web development, digital creativity, and building a
+          strong foundation in technology.
+        </p>
+        <div class="focus-list">
+          <div class="focus-item"><span></span>Modern web development</div>
+          <div class="focus-item"><span></span>Responsive website design</div>
+          <div class="focus-item"><span></span>Learning new technology</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <h2 class="section-title">Skills / What I Do</h2>
+    <p class="section-sub">Things I'm learning and working with.</p>
+
+    <div class="skills">
+      <div class="skill"><div class="skill-icon">🧱</div><b>HTML</b><span>Building clear and structured web pages.</span></div>
+      <div class="skill"><div class="skill-icon">🎨</div><b>CSS</b><span>Creating responsive layouts and modern designs.</span></div>
+      <div class="skill"><div class="skill-icon">⚡</div><b>JavaScript</b><span>Adding interaction and useful functionality.</span></div>
+      <div class="skill"><div class="skill-icon">🖥️</div><b>Web Design</b><span>Designing clean, user-friendly digital experiences.</span></div>
+      <div class="skill"><div class="skill-icon">💻</div><b>IT &amp; Technology</b><span>Exploring computers, software and digital tools.</span></div>
+      <div class="skill"><div class="skill-icon">💡</div><b>Creative Learning</b><span>Continuously learning new skills and ideas.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <h2 class="section-title">My Projects</h2>
+    <p class="section-sub">A place to showcase your work and future ideas.</p>
+
+    <div class="projects">
+      <div class="card project">
+        <div>
+          <div class="icon">🌐</div>
+          <h3>Personal Website</h3>
+          <p>This portfolio website, designed to introduce me and showcase my skills.</p>
+        </div>
+        <div><div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive</span></div><a class="btn secondary" style="margin-top:18px" href="#contact">Ask Me About It →</a></div>
+      </div>
+
+      <div class="card project">
+        <div>
+          <div class="icon">💻</div>
+          <h3>Web Project</h3>
+          <p>Add one of your web development projects here as you build it.</p>
+        </div>
+        <div class="tags"><span class="tag">JavaScript</span><span class="tag">Web</span></div>
+      </div>
+
+      <div class="card project">
+        <div>
+          <div class="icon">🚀</div>
+          <h3>Future Project</h3>
+          <p>This space is ready for your next idea, app, website or creative project.</p>
+        </div>
+        <div class="tags"><span class="tag">Coming Soon</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <h2 class="section-title">Let's Connect</h2>
+    <p class="section-sub">Have an idea or want to say hello?</p>
+
+    <div class="contact">
+      <div class="card">
+        <h3>Get in touch</h3>
+        <p style="color:var(--muted);margin-top:10px">
+          You can reach me directly through my contact details or social profiles.
+        </p>
+
+        <div class="contact-info">
+          <a class="contact-link" href="mailto:Stanosleezy@gmail.com">
+            ✉️ <div><small>Email</small>Stanosleezy@gmail.com</div>
+          </a>
+          <a class="contact-link" href="tel:+254116296455">
+            📞 <div><small>Phone</small>+254 116 296 455</div>
+          </a>
+        </div>
+
+        <div class="socials">
+          <a class="social" href="https://instagram.com/ochomo.stanos" target="_blank" rel="noopener">📷 Instagram</a>
+          <a class="social" href="https://www.tiktok.com/@stano.sleezy" target="_blank" rel="noopener">🎵 TikTok</a>
+          <a class="social" href="https://www.facebook.com/stano.sleezy" target="_blank" rel="noopener">📘 Facebook</a>
+          <a class="social" href="https://www.youtube.com/@stanosleezy" target="_blank" rel="noopener">▶️ YouTube</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <form onsubmit="sendMessage(event)">
+          <input id="name" required placeholder="Your name" autocomplete="name">
+          <input id="email" type="email" required placeholder="Your email" autocomplete="email">
+          <textarea id="message" required placeholder="Your message"></textarea>
+          <button class="btn primary" type="submit">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">© 2026 Stano. Built with HTML, CSS &amp; JavaScript.</div>
+</footer>
+
+<script>
+function toggleMenu(){
+  const menu = document.querySelector(".menu");
+  const links = document.querySelector("nav ul");
+  const open = links.classList.toggle("mobile-open");
+
+  if(open){
+    links.style.display = "flex";
+    links.style.flexDirection = "column";
+    links.style.position = "absolute";
+    links.style.right = "5%";
+    links.style.top = "62px";
+    links.style.background = "#0d1a2d";
+    links.style.padding = "18px";
+    links.style.borderRadius = "14px";
+    links.style.border = "1px solid rgba(100,145,190,.25)";
+    links.style.boxShadow = "0 20px 50px rgba(0,0,0,.3)";
+  }else{
+    links.style.display = "";
+  }
+  menu.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+document.querySelectorAll("nav a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    if(window.innerWidth <= 850){
+      const links=document.querySelector("nav ul");
+      links.classList.remove("mobile-open");
+      links.style.display="";
+      document.querySelector(".menu").setAttribute("aria-expanded","false");
+    }
+  });
+});
+
+function sendMessage(e){
+  e.preventDefault();
+  const name=document.getElementById("name").value.trim();
+  const email=document.getElementById("email").value.trim();
+  const message=document.getElementById("message").value.trim();
+
+  const subject=encodeURIComponent("Website message from "+name);
+  const body=encodeURIComponent(
+    "Name: "+name+"\nEmail: "+email+"\n\n"+message
+  );
+
+  window.location.href="mailto:Stanosleezy@gmail.com?subject="+subject+"&body="+body;
+}
+</script>
+</body>
+</html>
