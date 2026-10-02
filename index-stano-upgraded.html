@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Stano's personal portfolio website">
+<title>Stano | Web Developer & Creative</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1a2d;--panel2:#11233b;--text:#f5f7fb;--muted:#a9b7ca;--accent:#38bdf8;--accent2:#818cf8;--line:#203650}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+a{color:inherit;text-decoration:none}
+.container{width:min(1120px,90%);margin:auto}
+header{position:fixed;inset:0 0 auto 0;z-index:20;background:rgba(7,17,31,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(32,54,80,.8)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.45rem;letter-spacing:.5px}.logo span{color:var(--accent)}
+nav ul{display:flex;gap:28px;list-style:none}
+nav a{color:#dbe7f5;font-weight:600}nav a:hover{color:var(--accent)}
+.menu{display:none;background:none;border:0;color:white;font-size:1.6rem}
+.hero{min-height:100vh;display:grid;place-items:center;padding:120px 0 70px;background:radial-gradient(circle at 80% 25%,rgba(56,189,248,.14),transparent 30%),radial-gradient(circle at 20% 80%,rgba(129,140,248,.12),transparent 32%)}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center}
+.kicker{color:var(--accent);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:.85rem}
+h1{font-size:clamp(3rem,7vw,6.2rem);line-height:.98;margin:15px 0 25px}
+.gradient{background:linear-gradient(90deg,var(--accent),#a5b4fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.18rem;color:var(--muted);max-width:650px}
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-block;padding:13px 20px;border-radius:12px;font-weight:800;border:1px solid var(--line);transition:.2s}
+.btn.primary{background:var(--accent);color:#03101a;border-color:var(--accent)}
+.btn.secondary{background:transparent}.btn:hover{transform:translateY(-2px)}
+.profile{width:min(330px,80vw);aspect-ratio:1;border-radius:50%;margin:auto;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));padding:7px;box-shadow:0 25px 80px rgba(56,189,248,.18)}
+.profile-inner{width:100%;height:100%;border-radius:50%;background:var(--panel);display:grid;place-items:center;text-align:center;padding:30px}
+.profile-inner strong{font-size:4rem}.profile-inner p{color:var(--muted)}
+section{padding:95px 0}.section-title{font-size:2.4rem;margin-bottom:12px}.section-sub{color:var(--muted);margin-bottom:35px}
+.card{background:linear-gradient(180deg,var(--panel),#0a1627);border:1px solid var(--line);border-radius:20px;padding:30px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.skill{background:var(--panel2);padding:18px;border-radius:14px;border:1px solid var(--line)}
+.skill b{display:block;margin-bottom:4px}.skill span{color:var(--muted);font-size:.94rem}
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.project{min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+.project .icon{font-size:2rem}.project h3{margin:12px 0 7px}.project p{color:var(--muted)}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.tag{font-size:.78rem;padding:5px 9px;background:#172943;border-radius:999px;color:#c9eefe}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+form{display:grid;gap:13px}input,textarea{width:100%;padding:13px 14px;border-radius:10px;border:1px solid var(--line);background:#081526;color:white;font:inherit}textarea{min-height:140px;resize:vertical}
+.socials{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.social{padding:10px 14px;border:1px solid var(--line);border-radius:10px;color:#dbe7f5}
+footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);text-align:center}
+.reveal{animation:up .7s ease both}@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:800px){nav ul{display:none}.menu{display:block}.hero-grid,.about-grid,.contact{grid-template-columns:1fr}.projects{grid-template-columns:1fr}.skills{grid-template-columns:1fr}.hero{text-align:center}.lead{margin:auto}.actions{justify-content:center}.profile{width:250px}}
+
+/* Feature toolbar */
+.feature-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.feature-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035);color:#dbe7f5;cursor:pointer;font-weight:750;transition:.2s}
+.feature-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,.12)}
+.search-wrap{position:relative;margin:92px auto 0;width:min(720px,90%);z-index:5}
+.search-wrap input{margin:0;padding-left:46px;border-radius:999px;background:rgba(13,26,45,.94);border:1px solid var(--line);box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.search-icon{position:absolute;left:17px;top:12px;font-size:1.2rem;z-index:1}
+.search-results{display:none;position:absolute;left:0;right:0;top:56px;background:#0d1a2d;border:1px solid var(--line);border-radius:15px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,.35);max-height:260px;overflow:auto}
+.search-results button{width:100%;text-align:left;padding:11px;border:0;background:transparent;color:#dbe7f5;border-radius:9px;cursor:pointer}.search-results button:hover{background:rgba(56,189,248,.1)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.gallery-item{min-height:150px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#10233b,#09182b);display:grid;place-items:center;overflow:hidden;position:relative}.gallery-item img{width:100%;height:100%;object-fit:cover}.gallery-empty{padding:45px;text-align:center;color:var(--muted);grid-column:1/-1}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);z-index:100;padding:20px;align-items:center;justify-content:center}.modal-backdrop.open{display:flex}.modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:#0d1a2d;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.45)}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.close{border:0;background:transparent;color:#fff;font-size:1.6rem;cursor:pointer}.chat-box{height:300px;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:15px;background:#081526;margin-bottom:12px}.chat-msg{margin:8px 0;padding:9px 11px;border-radius:12px;background:#11233b;max-width:85%}.chat-msg.mine{margin-left:auto;background:rgba(56,189,248,.18);border:1px solid rgba(56,189,248,.3)}.chat-meta{font-size:.72rem;color:var(--muted);display:block;margin-bottom:3px}.chat-form{display:grid;grid-template-columns:1fr auto;gap:9px}.option-list{display:grid;gap:10px}.option-row{padding:14px;border:1px solid var(--line);border-radius:13px;display:flex;justify-content:space-between;align-items:center}.switch{width:48px;height:26px;border-radius:999px;background:#233b56;position:relative;cursor:pointer}.switch:after{content:"";position:absolute;width:20px;height:20px;top:3px;left:4px;border-radius:50%;background:white;transition:.2s}.switch.on{background:var(--accent)}.switch.on:after{left:24px}.notice{padding:12px;border-radius:12px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.18);color:#ccecff;font-size:.9rem;margin-bottom:14px}
+@media(max-width:850px){.gallery-grid{grid-template-columns:1fr 1fr}.feature-bar{justify-content:center}.search-wrap{margin-top:82px}}
+@media(max-width:520px){.gallery-grid{grid-template-columns:1fr}.feature-btn{flex:1 1 calc(50% - 10px)}}
+
+/* Upgraded account, profile, notifications, admin and persistent-feature UI */
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);color:#ccecff;font-size:.78rem;font-weight:700}
+.user-pill{display:none;align-items:center;gap:8px}
+.user-pill.show{display:inline-flex}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03101a;font-weight:900}
+.form-grid{display:grid;gap:12px}
+.profile-card{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.profile-avatar{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#03101a;font-size:2rem;font-weight:900}
+.notification{padding:13px;border:1px solid var(--line);border-radius:13px;background:#0a1728;margin-bottom:9px}
+.notification.unread{border-color:rgba(56,189,248,.5);background:rgba(56,189,248,.08)}
+.admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{padding:18px;border:1px solid var(--line);border-radius:15px;background:#0a1728}
+.stat b{display:block;font-size:1.7rem;color:var(--accent)}
+.upload-row{display:flex;gap:10px;flex-wrap:wrap}
+.gallery-item{cursor:pointer}
+.gallery-item .gallery-tools{position:absolute;inset:auto 8px 8px 8px;display:flex;justify-content:flex-end;gap:7px}
+.gallery-tools button{border:0;border-radius:9px;padding:6px 9px;background:rgba(0,0,0,.7);color:white;cursor:pointer}
+.toast{position:fixed;right:18px;bottom:18px;z-index:300;background:#0d1a2d;border:1px solid var(--accent);color:#eaf8ff;padding:13px 16px;border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.35);display:none}
+.toast.show{display:block}
+.chat-tabs{display:flex;gap:8px;margin-bottom:10px}
+.chat-tabs button{border:1px solid var(--line);background:#10233b;color:#dbe7f5;padding:8px 12px;border-radius:10px;cursor:pointer}
+.chat-tabs button.active{border-color:var(--accent);color:var(--accent)}
+@media(max-width:650px){.admin-grid{grid-template-columns:1fr}.profile-card{grid-template-columns:1fr;text-align:center}.profile-avatar{margin:auto}}
+</style>
+</head>
+<body>
+<header>
+<div class="container nav">
+<a class="logo" href="#home">Stano<span>.</span></a>
+<nav><ul>
+<li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#skills">Skills</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li>
+</ul></nav>
+<div class="user-pill" id="userPill"><span class="avatar" id="headerAvatar">S</span><span id="headerUser">Guest</span></div><button class="menu" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+</div>
+</header>
+
+<div class="search-wrap"><span class="search-icon">🔍</span><input id="siteSearch" type="search" placeholder="Search this website..." aria-label="Search this website" oninput="searchSite()"><div id="searchResults" class="search-results"></div></div>
+<div class="container feature-bar" aria-label="Website tools"><button class="feature-btn" onclick="openModal('settingsModal')">⚙️ Settings</button><button class="feature-btn" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">🖼️ Gallery</button><a class="feature-btn" href="tel:+254116296455">📞 Call</a><button class="feature-btn" onclick="openModal('chatModal')">💬 Community Chat</button><button class="feature-btn" onclick="shareWebsite()">📤 Share</button><button class="feature-btn" onclick="openModal('optionsModal')">⋮ Options</button><button class="feature-btn" onclick="openModal('accountModal')">👤 Account</button><button class="feature-btn" onclick="openModal('profileModal')">🪪 Profile</button><button class="feature-btn" onclick="openModal('notificationsModal')">🔔 Notifications <span class="badge" id="notificationBadge">0</span></button><button class="feature-btn" onclick="openModal('adminModal')">🛠️ Admin</button></div>
+<main id="home">
+<section class="hero">
+<div class="container hero-grid">
+<div class="reveal">
+<div class="kicker">Welcome to my website</div>
+<h1>Hi, I'm <span class="gradient">Stano.</span></h1>
+<p class="lead">I'm interested in technology and web development. I enjoy learning how to build modern, responsive and user-friendly websites and turning ideas into digital experiences.</p>
+<div class="actions"><a class="btn primary" href="#projects">View My Work</a><a class="btn secondary" href="#contact">Contact Me</a></div>
+</div>
+<div class="profile reveal"><div class="profile-inner"><div><strong>S</strong><p>Web Development<br>IT & Technology</p></div></div></div>
+</div>
+</section>
+
+<section id="about">
+<div class="container">
+<h2 class="section-title">About Me</h2><p class="section-sub">A little about who I am.</p>
+<div class="about-grid">
+<div class="card"><p>Hi, I'm Stano. Welcome to my personal website! I'm a passionate and motivated person who enjoys learning new things, developing my skills, and connecting with people. I'm always looking for new opportunities to grow, explore my interests, and turn my ideas into reality.</p></div>
+<div class="card"><h3>My Focus</h3><p style="color:var(--muted);margin-top:10px">I'm currently focused on web development, digital creativity, and building a strong foundation in technology. My goal is to keep learning and create useful, attractive websites.</p></div>
+</div>
+</div>
+<div class="card" style="margin-top:25px">
+  <div class="profile-card">
+    <div class="profile-avatar" id="aboutAvatar">S</div>
+    <div><h3 id="aboutProfileName">Stano Sleezy</h3><p id="aboutProfileBio" style="color:var(--muted);margin-top:5px">Web developer • IT & Technology</p></div>
+  </div>
+</div>
+</div>
+</section>
+
+<section id="skills">
+<div class="container">
+<h2 class="section-title">Skills / What I Do</h2><p class="section-sub">Things I'm learning and working with.</p>
+<div class="skills">
+<div class="skill"><b>HTML</b><span>Building clear and structured web pages.</span></div>
+<div class="skill"><b>CSS</b><span>Creating responsive layouts and modern designs.</span></div>
+<div class="skill"><b>JavaScript</b><span>Adding interaction and useful functionality.</span></div>
+<div class="skill"><b>Web Design</b><span>Designing clean, user-friendly digital experiences.</span></div>
+<div class="skill"><b>IT & Technology</b><span>Exploring computers, software and digital tools.</span></div>
+<div class="skill"><b>Creative Learning</b><span>Continuously learning new skills and ideas.</span></div>
+</div>
+</div>
+</section>
+
+<section id="gallery">
+<div class="container">
+<h2 class="section-title">Gallery</h2><p class="section-sub">A space for photos and project images.</p>
+<div class="card">
+<div class="feature-bar" style="margin:0 0 18px"><label class="feature-btn" for="galleryUpload">➕ Add Photos</label><input id="galleryUpload" type="file" accept="image/*" multiple hidden onchange="addGalleryImages(event)"></div><div class="upload-row"><button class="feature-btn" onclick="clearGallery()">🗑️ Clear Gallery</button><button class="feature-btn" onclick="openModal('galleryInfoModal')">ℹ️ Gallery Info</button></div>
+<div id="galleryGrid" class="gallery-grid"><div class="gallery-empty">No photos yet. Use “Add Photos” to add images from your phone.</div></div>
+</div></div></section>
+
+<section id="projects">
+<div class="container">
+<h2 class="section-title">My Projects</h2><p class="section-sub">A place to showcase your future work.</p>
+<div class="projects">
+<div class="card project"><div><div class="icon">🌐</div><h3>Personal Website</h3><p>This portfolio website, designed to introduce me and showcase my skills.</p></div><div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive</span></div></div>
+<div class="card project"><div><div class="icon">💻</div><h3>Web Project</h3><p>Add one of your web development projects here as you build it.</p></div><div class="tags"><span class="tag">JavaScript</span><span class="tag">Web</span></div></div>
+<div class="card project"><div><div class="icon">🚀</div><h3>Future Project</h3><p>This space is ready for your next idea, app, website or creative project.</p></div><div class="tags"><span class="tag">Coming Soon</span></div></div>
+</div>
+</div>
+</section>
+
+<section id="contact">
+<div class="container">
+<h2 class="section-title">Let's Connect</h2><p class="section-sub">Have an idea or want to say hello?</p>
+<div class="contact">
+<div class="card"><h3>Get in touch</h3><p style="color:var(--muted);margin-top:10px">Replace the links below with your real social-media profiles and email address.</p>
+<div class="socials"><a class="social" href="mailto:Stanosleezy@gmail.com">✉ Email</a><a class="social" href="https://wa.me/254116296455" target="_blank" rel="noopener">📱 WhatsApp</a><a class="social" href="https://www.instagram.com/ochomostanos/" target="_blank" rel="noopener">📷 Instagram</a><a class="social" href="https://www.linkedin.com/" target="_blank" rel="noopener">💼 LinkedIn</a></div><div class="socials"><a class="social" href="tel:+254116296455">📞 +254 116 296 455</a><a class="social" href="https://www.tiktok.com/" target="_blank" rel="noopener">🎵 TikTok</a><a class="social" href="https://www.facebook.com/" target="_blank" rel="noopener">📘 Facebook</a><a class="social" href="https://www.youtube.com/" target="_blank" rel="noopener">▶️ YouTube</a></div></div>
+<div class="card"><form onsubmit="sendMessage(event)"><input id="name" required placeholder="Your name"><input id="email" type="email" required placeholder="Your email"><textarea id="message" required placeholder="Your message"></textarea><button class="btn primary" type="submit">Send Message</button></form></div>
+</div>
+</div>
+</section>
+</main>
+
+
+<div id="settingsModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>⚙️ Settings</h2><button class="close" onclick="closeModal('settingsModal')">×</button></div><div class="option-list"><div class="option-row"><span>Dark blue theme</span><span class="switch on" onclick="toggleSwitch(this)"></span></div><div class="option-row"><span>Animations</span><span class="switch on" onclick="toggleSwitch(this)"></span></div><div class="option-row"><span>Save preferences</span><span class="switch on" onclick="toggleSwitch(this)"></span></div></div></div></div>
+<div id="optionsModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>⋮ Options</h2><button class="close" onclick="closeModal('optionsModal')">×</button></div><div class="feature-bar"><button class="feature-btn" onclick="shareWebsite()">📤 Share Website</button><a class="feature-btn" href="#contact" onclick="closeModal('optionsModal')">✉️ Contact Stano</a><button class="feature-btn" onclick="window.scrollTo({top:0,behavior:'smooth'});closeModal('optionsModal')">⬆️ Back to Top</button></div></div></div>
+<div id="chatModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>💬 Community Chat</h2><button class="close" onclick="closeModal('chatModal')">×</button></div><div class="notice">Visitors can use this chat interface to share information. Messages are saved in this browser. For true cross-device live chat, a database/backend connection must be added.</div><div id="chatBox" class="chat-box"></div><form class="chat-form" onsubmit="sendChat(event)"><input id="chatName" required placeholder="Your name"><input id="chatText" required placeholder="Write a message..." style="grid-column:1/-1"><button class="btn primary" type="submit">Send</button></form></div></div>
+
+<div id="accountModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>👤 Account</h2><button class="close" onclick="closeModal('accountModal')">×</button></div><div class="notice">Create a local profile for this website. For secure cross-device accounts, connect a real authentication backend later.</div><form class="form-grid" onsubmit="saveAccount(event)"><input id="accountName" required placeholder="Your name"><input id="accountEmail" type="email" placeholder="Email address"><input id="accountPassword" type="password" minlength="4" placeholder="Password (local demo only)"><button class="btn primary" type="submit">Create / Save Account</button></form><button class="feature-btn" style="margin-top:12px" onclick="logoutAccount()">Log Out</button></div></div>
+
+<div id="profileModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🪪 Profile</h2><button class="close" onclick="closeModal('profileModal')">×</button></div><form class="form-grid" onsubmit="saveProfile(event)"><input id="profileName" required placeholder="Display name"><input id="profileUsername" placeholder="Username"><textarea id="profileBio" placeholder="Short bio"></textarea><button class="btn primary" type="submit">Save Profile</button></form></div></div>
+
+<div id="notificationsModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🔔 Notifications</h2><button class="close" onclick="closeModal('notificationsModal')">×</button></div><div id="notificationList"></div><button class="feature-btn" onclick="markNotificationsRead()">✓ Mark all as read</button></div></div>
+
+<div id="adminModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🛠️ Admin Dashboard</h2><button class="close" onclick="closeModal('adminModal')">×</button></div><div class="notice">This is a browser-only admin panel. It does not protect server data. Real admin authentication should be connected before publishing private controls.</div><div class="admin-grid"><div class="stat"><b id="statMessages">0</b>Chat messages</div><div class="stat"><b id="statGallery">0</b>Gallery images</div><div class="stat"><b id="statNotifications">0</b>Notifications</div><div class="stat"><b id="statAccount">No</b>Account</div></div><div class="feature-bar"><button class="feature-btn" onclick="exportSiteData()">⬇️ Export Data</button><button class="feature-btn" onclick="resetSiteData()">♻️ Reset Local Data</button></div></div></div>
+
+<div id="galleryInfoModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🖼️ Gallery</h2><button class="close" onclick="closeModal('galleryInfoModal')">×</button></div><p style="color:var(--muted)">Images added from your phone are stored in this browser using local storage. They are not automatically uploaded to GitHub or visible to other visitors.</p></div></div>
+
+<div id="loginRequiredModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🔐 Sign in needed</h2><button class="close" onclick="closeModal('loginRequiredModal')">×</button></div><p style="color:var(--muted)">Some features require an account. Use the Account button to create a local profile.</p><button class="btn primary" onclick="closeModal('loginRequiredModal');openModal('accountModal')">Open Account</button></div></div>
+
+<div id="toast" class="toast" role="status"></div>
+<footer><div class="container">© 2026 Stano. Built with HTML, CSS & JavaScript.</div></footer>
+<script>
+const KEY={account:'stanoAccount',profile:'stanoProfile',chat:'stanoCommunityChat',gallery:'stanoGallery',notifications:'stanoNotifications',settings:'stanoSettings'};
+
+function toggleMenu(){const u=document.querySelector('nav ul');u.style.display=u.style.display==='flex'?'none':'flex';u.style.flexDirection='column';u.style.position='absolute';u.style.right='5%';u.style.top='65px';u.style.background='#0d1a2d';u.style.padding='18px';u.style.borderRadius='12px'}
+function openModal(id){const el=document.getElementById(id);if(!el)return;el.classList.add('open');if(id==='chatModal')renderChat();if(id==='notificationsModal')renderNotifications();if(id==='adminModal')renderAdmin();if(id==='profileModal')loadProfileForm()}
+function closeModal(id){const el=document.getElementById(id);if(el)el.classList.remove('open')}
+function closeOnBackdrop(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function read(k,f){try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}}
+function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+function saveAccount(e){e.preventDefault();const account={name:document.getElementById('accountName').value.trim(),email:document.getElementById('accountEmail').value.trim(),createdAt:new Date().toISOString()};write(KEY.account,account);updateUserUI();addNotification('Account updated','Your website account/profile was saved.');toast('Account saved');closeModal('accountModal')}
+function logoutAccount(){localStorage.removeItem(KEY.account);updateUserUI();toast('Logged out');closeModal('accountModal')}
+function updateUserUI(){const a=read(KEY.account,null),pill=document.getElementById('userPill');if(a){pill.classList.add('show');document.getElementById('headerUser').textContent=a.name;document.getElementById('headerAvatar').textContent=(a.name||'S')[0].toUpperCase()}else{pill.classList.remove('show')}}
+function saveProfile(e){e.preventDefault();const p={name:document.getElementById('profileName').value.trim(),username:document.getElementById('profileUsername').value.trim(),bio:document.getElementById('profileBio').value.trim()};write(KEY.profile,p);document.getElementById('aboutProfileName').textContent=p.name||'Stano Sleezy';document.getElementById('aboutProfileBio').textContent=p.bio||'Web developer • IT & Technology';document.getElementById('aboutAvatar').textContent=(p.name||'S')[0].toUpperCase();addNotification('Profile updated','Your public profile information was saved.');toast('Profile saved');closeModal('profileModal')}
+function loadProfileForm(){const p=read(KEY.profile,{name:'Stano Sleezy',username:'',bio:'Web developer • IT & Technology'});document.getElementById('profileName').value=p.name;document.getElementById('profileUsername').value=p.username;document.getElementById('profileBio').value=p.bio}
+function addNotification(title,text){const n=read(KEY.notifications,[]);n.unshift({id:Date.now(),title,text,time:new Date().toLocaleString(),read:false});write(KEY.notifications,n.slice(0,50));renderNotificationBadge()}
+function renderNotificationBadge(){const n=read(KEY.notifications,[]);document.getElementById('notificationBadge').textContent=n.filter(x=>!x.read).length}
+function renderNotifications(){const box=document.getElementById('notificationList'),n=read(KEY.notifications,[]);box.innerHTML=n.length?n.map(x=>`<div class="notification ${x.read?'':'unread'}"><b>${escapeHtml(x.title)}</b><div>${escapeHtml(x.text)}</div><small style="color:var(--muted)">${escapeHtml(x.time)}</small></div>`).join(''):'<p style="color:var(--muted)">No notifications yet.</p>';renderNotificationBadge()}
+function markNotificationsRead(){const n=read(KEY.notifications,[]).map(x=>({...x,read:true}));write(KEY.notifications,n);renderNotifications();toast('Notifications marked as read')}
+
+function sendMessage(e){e.preventDefault();const name=document.getElementById('name').value.trim(),email=document.getElementById('email').value.trim(),message=document.getElementById('message').value.trim();const drafts=read('stanoContactMessages',[]);drafts.unshift({name,email,message,time:new Date().toLocaleString()});write('stanoContactMessages',drafts.slice(0,50));addNotification('Contact message saved','Your message has been saved on this browser.');e.target.reset();toast('Message saved. A real email/backend service is needed to deliver it.')}
+function shareWebsite(){if(navigator.share){navigator.share({title:"Stano | Web Developer & Creative",text:"Check out Stano's personal website.",url:location.href}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>toast('Website link copied!')).catch(()=>toast(location.href))}else toast('Website link: '+location.href)}
+
+const searchable=[['About Me','#about'],['Skills / What I Do','#skills'],['My Projects','#projects'],['Gallery','#gallery'],['Contact','#contact'],['Community Chat','chatModal'],['Account','accountModal'],['Profile','profileModal'],['Notifications','notificationsModal'],['Admin Dashboard','adminModal']];
+function searchSite(){const q=document.getElementById('siteSearch').value.toLowerCase().trim(),box=document.getElementById('searchResults');if(!q){box.style.display='none';return}const hits=searchable.filter(x=>x[0].toLowerCase().includes(q));box.innerHTML=hits.length?hits.map(x=>`<button onclick="goSearch('${x[1]}')">🔎 ${escapeHtml(x[0])}</button>`).join(''):'<button>No matching section found</button>';box.style.display='block'}
+function goSearch(target){document.getElementById('searchResults').style.display='none';if(target.endsWith('Modal'))openModal(target);else document.querySelector(target)?.scrollIntoView({behavior:'smooth'})}
+
+function getChats(){return read(KEY.chat,[])}
+function renderChat(){const box=document.getElementById('chatBox'),msgs=getChats();box.innerHTML=msgs.length?msgs.map(m=>`<div class="chat-msg ${m.mine?'mine':''}"><span class="chat-meta">${escapeHtml(m.name)} • ${escapeHtml(m.time)}</span>${escapeHtml(m.text)}</div>`).join(''):'<div style="color:var(--muted);text-align:center;padding:80px 10px">No messages yet. Start the conversation.</div>';box.scrollTop=box.scrollHeight}
+function sendChat(e){e.preventDefault();const name=document.getElementById('chatName').value.trim(),text=document.getElementById('chatText').value.trim();if(!name||!text)return;const msgs=getChats();msgs.push({name,text,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),mine:true});write(KEY.chat,msgs.slice(-100));document.getElementById('chatText').value='';renderChat();addNotification('New chat message','Your message was added to the local community chat.')}
+function clearGallery(){if(confirm('Clear all locally stored gallery images?')){localStorage.removeItem(KEY.gallery);renderGallery();toast('Gallery cleared')}}
+function addGalleryImages(e){const files=[...e.target.files];if(!files.length)return;const existing=read(KEY.gallery,[]);let remaining=files.length;files.forEach(file=>{const reader=new FileReader();reader.onload=()=>{existing.push({name:file.name,data:reader.result,time:new Date().toISOString()});remaining--;if(!remaining){write(KEY.gallery,existing.slice(-30));renderGallery();addNotification('Gallery updated',files.length+' image(s) added.');toast('Photos added')}};reader.readAsDataURL(file)});e.target.value=''}
+function renderGallery(){const grid=document.getElementById('galleryGrid'),items=read(KEY.gallery,[]);grid.innerHTML=items.length?items.map((x,i)=>`<div class="gallery-item"><img src="${x.data}" alt="${escapeHtml(x.name)}"><div class="gallery-tools"><button onclick="event.stopPropagation();deleteGallery(${i})">🗑️</button></div></div>`).join(''):'<div class="gallery-empty">No photos yet. Use “Add Photos” to add images from your phone.</div>'}
+function deleteGallery(i){const items=read(KEY.gallery,[]);items.splice(i,1);write(KEY.gallery,items);renderGallery();toast('Photo removed')}
+
+function toggleSwitch(el){el.classList.toggle('on');write(KEY.settings,{switches:[...document.querySelectorAll('.switch')].map(x=>x.classList.contains('on'))})}
+function renderAdmin(){document.getElementById('statMessages').textContent=getChats().length;document.getElementById('statGallery').textContent=read(KEY.gallery,[]).length;document.getElementById('statNotifications').textContent=read(KEY.notifications,[]).length;document.getElementById('statAccount').textContent=read(KEY.account,null)?'Yes':'No'}
+function exportSiteData(){const data={account:read(KEY.account,null),profile:read(KEY.profile,null),chat:getChats(),gallery:read(KEY.gallery,[]),notifications:read(KEY.notifications,[]),contactMessages:read('stanoContactMessages',[])};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='stano-website-data.json';a.click();URL.revokeObjectURL(a.href);toast('Data exported')}
+function resetSiteData(){if(!confirm('Reset all locally stored website data on this device?'))return;Object.values(KEY).forEach(k=>localStorage.removeItem(k));localStorage.removeItem('stanoContactMessages');location.reload()}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>m.classList.remove('open'))});
+document.addEventListener('DOMContentLoaded',()=>{updateUserUI();renderGallery();renderNotificationBadge();const p=read(KEY.profile,null);if(p){document.getElementById('aboutProfileName').textContent=p.name||'Stano Sleezy';document.getElementById('aboutProfileBio').textContent=p.bio||'Web developer • IT & Technology';document.getElementById('aboutAvatar').textContent=(p.name||'S')[0].toUpperCase()}});
+</script>
+</body>
+</html>
