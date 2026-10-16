@@ -364,5 +364,8 @@ function resetSiteData(){if(!confirm('Reset all locally stored website data on t
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>m.classList.remove('open'))});
 document.addEventListener('DOMContentLoaded',()=>{updateUserUI();renderGallery();renderNotificationBadge();const p=read(KEY.profile,null);if(p){document.getElementById('aboutProfileName').textContent=p.name||'Stano Sleezy';document.getElementById('aboutProfileBio').textContent=p.bio||'Web developer • IT & Technology';document.getElementById('aboutAvatar').textContent=(p.name||'S')[0].toUpperCase()}});
 </script>
+  <a href="mydocument.pdf" download style="display:inline-block;background:#007bff;color:white;padding:12px 20px;border-radius:10px;text-decoration:none;">
+  📄 Download My Document
+  </a>
 </body>
 </html>
