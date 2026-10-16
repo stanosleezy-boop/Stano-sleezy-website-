@@ -28,6 +28,7 @@ h1{font-size:clamp(3rem,7vw,6.2rem);line-height:.98;margin:15px 0 25px}
 .btn{display:inline-block;padding:13px 20px;border-radius:12px;font-weight:800;border:1px solid var(--line);transition:.2s}
 .btn.primary{background:var(--accent);color:#03101a;border-color:var(--accent)}
 .btn.secondary{background:transparent}.btn:hover{transform:translateY(-2px)}
+.hero-profile-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}.hero-profile-wrap .btn{box-shadow:0 0 18px rgba(56,189,248,.35)}
 .profile{width:min(330px,80vw);aspect-ratio:1;border-radius:50%;margin:auto;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));padding:7px;box-shadow:0 25px 80px rgba(56,189,248,.18)}
 .profile-inner{width:100%;height:100%;border-radius:50%;background:var(--panel);display:grid;place-items:center;text-align:center;padding:30px}
 .profile-inner strong{font-size:4rem}.profile-inner p{color:var(--muted)}
@@ -112,7 +113,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);text-a
 <p class="lead">I'm interested in technology and web development. I enjoy learning how to build modern, responsive and user-friendly websites and turning ideas into digital experiences.</p>
 <div class="actions"><a class="btn primary" href="#projects">View My Work</a><a class="btn secondary" href="#contact">Contact Me</a></div>
 </div>
-<div class="profile reveal"><div class="profile-inner"><div><strong>S</strong><p>Web Development<br>IT & Technology</p></div></div></div>
+<div class="hero-profile-wrap reveal"><div class="profile"><div class="profile-inner"><div><strong>S</strong><p>Web Development<br>IT & Technology</p></div></div></div><a class="btn primary" href="document.pdf" target="_blank" rel="noopener">📄 Open Document</a><a class="btn secondary" href="document.pdf" download="Stano-Sleezy-Document.pdf">⬇️ Download Document</a></div>
 </div>
 </section>
 
@@ -195,7 +196,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);text-a
 
 <div id="loginRequiredModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>🔐 Sign in needed</h2><button class="close" onclick="closeModal('loginRequiredModal')">×</button></div><p style="color:var(--muted)">Some features require an account. Use the Account button to create a local profile.</p><button class="btn primary" onclick="closeModal('loginRequiredModal');openModal('accountModal')">Open Account</button></div></div>
 
-<div id="backendInfoModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>☁️ Shared Features</h2><button class="close" onclick="closeModal('backendInfoModal')">×</button></div><div class="notice">This website is ready for a real backend connection, but GitHub Pages by itself does not provide a database or server.</div><div class="option-list"><div class="option-row"><span>Community chat across devices</span><b>Backend needed</b></div><div class="option-row"><span>Messages delivered to your email</span><b>Email service / mail app</b></div><div class="option-row"><span>Gallery shared with visitors</span><b>Cloud storage needed</b></div><div class="option-row"><span>Secure accounts</span><b>Authentication needed</b></div></div><p style="color:var(--muted);margin-top:16px">This version is backend-ready. After you connect your Firebase project configuration below, chat can sync across devices and gallery images can be stored online without changing the website design.</p></div></div>
+<div id="backendInfoModal" class="modal-backdrop" onclick="closeOnBackdrop(event)"><div class="modal"><div class="modal-head"><h2>☁️ Shared Features</h2><button class="close" onclick="closeModal('backendInfoModal')">×</button></div><div class="notice">Firebase is configured in this website file. Shared features work only after the matching Firebase services and security rules are enabled in your Firebase project. GitHub Pages alone does not provide a database or cloud storage.</div><div class="option-list"><div class="option-row"><span>Community chat across devices</span><b>Backend needed</b></div><div class="option-row"><span>Messages delivered to your email</span><b>Email service / mail app</b></div><div class="option-row"><span>Gallery shared with visitors</span><b>Cloud storage needed</b></div><div class="option-row"><span>Secure accounts</span><b>Authentication needed</b></div></div><p style="color:var(--muted);margin-top:16px">The website file includes Firebase code for shared chat and gallery uploads. To activate them, use the same project ID shown in this file, enable Anonymous sign-in, create Firestore Database, enable Storage, and publish secure Firestore/Storage rules. Email/Password and Google sign-in are separate account providers; this file currently uses anonymous sign-in for chat/gallery access.</p></div></div>
 <div id="toast" class="toast" role="status"></div>
 <footer><div class="container">© 2026 Stano. Built with HTML, CSS & JavaScript.</div></footer>
 
@@ -290,82 +291,3 @@ if (!configured) {
         if (!file.type.startsWith("image/")) return toast("Only image files are allowed");
         if (file.size > 5 * 1024 * 1024) return toast("Please use images smaller than 5 MB");
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const storagePath = `gallery/${Date.now()}-${safeName}`;
-        const storageRef = ref(storage, storagePath);
-        await uploadBytes(storageRef, file, {contentType:file.type});
-        const url = await getDownloadURL(storageRef);
-        await addDoc(collection(db, "gallery"), {name:file.name, url, storagePath, createdAt:serverTimestamp()});
-        toast("Photo shared with visitors");
-      } catch (err) {
-        console.error(err);
-        toast("Gallery upload failed; check Firebase Storage rules");
-      }
-    };
-
-    window.cloudDeleteGallery = async (id, storagePath) => {
-      if (!confirm("Delete this shared photo?")) return;
-      try {
-        await deleteDoc(doc(db, "gallery", id));
-        if (storagePath) await deleteObject(ref(storage, storagePath)).catch(()=>{});
-        toast("Shared photo deleted");
-      } catch (err) {
-        console.error(err);
-        toast("Delete failed; check Firebase rules");
-      }
-    };
-  } catch (err) {
-    console.error(err);
-    status(false, "connection error");
-  }
-}
-</script>
-<script>
-const KEY={account:'stanoAccount',profile:'stanoProfile',chat:'stanoCommunityChat',gallery:'stanoGallery',notifications:'stanoNotifications',settings:'stanoSettings'};
-
-function toggleMenu(){const u=document.querySelector('nav ul');u.style.display=u.style.display==='flex'?'none':'flex';u.style.flexDirection='column';u.style.position='absolute';u.style.right='5%';u.style.top='65px';u.style.background='#0d1a2d';u.style.padding='18px';u.style.borderRadius='12px'}
-function openModal(id){const el=document.getElementById(id);if(!el)return;el.classList.add('open');if(id==='chatModal')renderChat();if(id==='notificationsModal')renderNotifications();if(id==='adminModal')renderAdmin();if(id==='profileModal')loadProfileForm()}
-function closeModal(id){const el=document.getElementById(id);if(el)el.classList.remove('open')}
-function closeOnBackdrop(e){if(e.target===e.currentTarget)e.currentTarget.classList.remove('open')}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
-function read(k,f){try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}}
-function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-
-function saveAccount(e){e.preventDefault();const account={name:document.getElementById('accountName').value.trim(),email:document.getElementById('accountEmail').value.trim(),createdAt:new Date().toISOString()};write(KEY.account,account);updateUserUI();addNotification('Account updated','Your website account/profile was saved.');toast('Account saved');closeModal('accountModal')}
-function logoutAccount(){localStorage.removeItem(KEY.account);updateUserUI();toast('Logged out');closeModal('accountModal')}
-function updateUserUI(){const a=read(KEY.account,null),pill=document.getElementById('userPill');if(a){pill.classList.add('show');document.getElementById('headerUser').textContent=a.name;document.getElementById('headerAvatar').textContent=(a.name||'S')[0].toUpperCase()}else{pill.classList.remove('show')}}
-function saveProfile(e){e.preventDefault();const p={name:document.getElementById('profileName').value.trim(),username:document.getElementById('profileUsername').value.trim(),bio:document.getElementById('profileBio').value.trim()};write(KEY.profile,p);document.getElementById('aboutProfileName').textContent=p.name||'Stano Sleezy';document.getElementById('aboutProfileBio').textContent=p.bio||'Web developer • IT & Technology';document.getElementById('aboutAvatar').textContent=(p.name||'S')[0].toUpperCase();addNotification('Profile updated','Your public profile information was saved.');toast('Profile saved');closeModal('profileModal')}
-function loadProfileForm(){const p=read(KEY.profile,{name:'Stano Sleezy',username:'',bio:'Web developer • IT & Technology'});document.getElementById('profileName').value=p.name;document.getElementById('profileUsername').value=p.username;document.getElementById('profileBio').value=p.bio}
-function addNotification(title,text){const n=read(KEY.notifications,[]);n.unshift({id:Date.now(),title,text,time:new Date().toLocaleString(),read:false});write(KEY.notifications,n.slice(0,50));renderNotificationBadge()}
-function renderNotificationBadge(){const n=read(KEY.notifications,[]);document.getElementById('notificationBadge').textContent=n.filter(x=>!x.read).length}
-function renderNotifications(){const box=document.getElementById('notificationList'),n=read(KEY.notifications,[]);box.innerHTML=n.length?n.map(x=>`<div class="notification ${x.read?'':'unread'}"><b>${escapeHtml(x.title)}</b><div>${escapeHtml(x.text)}</div><small style="color:var(--muted)">${escapeHtml(x.time)}</small></div>`).join(''):'<p style="color:var(--muted)">No notifications yet.</p>';renderNotificationBadge()}
-function markNotificationsRead(){const n=read(KEY.notifications,[]).map(x=>({...x,read:true}));write(KEY.notifications,n);renderNotifications();toast('Notifications marked as read')}
-
-function sendMessage(e){e.preventDefault();const name=document.getElementById('name').value.trim(),email=document.getElementById('email').value.trim(),message=document.getElementById('message').value.trim();const drafts=read('stanoContactMessages',[]);drafts.unshift({name,email,message,time:new Date().toLocaleString()});write('stanoContactMessages',drafts.slice(0,50));addNotification('Contact message prepared','Your message was saved locally and an email draft can be opened.');const subject=encodeURIComponent('Website message from '+name);const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\nMessage:\n'+message);window.location.href='mailto:Stanosleezy@gmail.com?subject='+subject+'&body='+body;e.target.reset()}
-function shareWebsite(){if(navigator.share){navigator.share({title:"Stano | Web Developer & Creative",text:"Check out Stano's personal website.",url:location.href}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(location.href).then(()=>toast('Website link copied!')).catch(()=>toast(location.href))}else toast('Website link: '+location.href)}
-
-const searchable=[['About Me','#about'],['Skills / What I Do','#skills'],['My Projects','#projects'],['Gallery','#gallery'],['Contact','#contact'],['Community Chat','chatModal'],['Account','accountModal'],['Profile','profileModal'],['Notifications','notificationsModal'],['Admin Dashboard','adminModal']];
-function searchSite(){const q=document.getElementById('siteSearch').value.toLowerCase().trim(),box=document.getElementById('searchResults');if(!q){box.style.display='none';return}const hits=searchable.filter(x=>x[0].toLowerCase().includes(q));box.innerHTML=hits.length?hits.map(x=>`<button onclick="goSearch('${x[1]}')">🔎 ${escapeHtml(x[0])}</button>`).join(''):'<button>No matching section found</button>';box.style.display='block'}
-function goSearch(target){document.getElementById('searchResults').style.display='none';if(target.endsWith('Modal'))openModal(target);else document.querySelector(target)?.scrollIntoView({behavior:'smooth'})}
-
-function getChats(){return read(KEY.chat,[])}
-function renderChat(){const box=document.getElementById('chatBox'),msgs=getChats();box.innerHTML=msgs.length?msgs.map(m=>`<div class="chat-msg ${m.mine?'mine':''}"><span class="chat-meta">${escapeHtml(m.name)} • ${escapeHtml(m.time)}</span>${escapeHtml(m.text)}</div>`).join(''):'<div style="color:var(--muted);text-align:center;padding:80px 10px">No messages yet. Start the conversation.</div>';box.scrollTop=box.scrollHeight}
-function sendChat(e){e.preventDefault();const name=document.getElementById('chatName').value.trim(),text=document.getElementById('chatText').value.trim();if(!name||!text)return;if(window.cloudSendChat){window.cloudSendChat(name,text);document.getElementById('chatText').value='';return}const msgs=getChats();msgs.push({name,text,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),mine:true});write(KEY.chat,msgs.slice(-100));document.getElementById('chatText').value='';renderChat();addNotification('New chat message','Your message was added to the local community chat.')}
-function clearGallery(){if(confirm('Clear all locally stored gallery images?')){localStorage.removeItem(KEY.gallery);renderGallery();toast('Gallery cleared')}}
-function addGalleryImages(e){const files=[...e.target.files];if(!files.length)return;if(window.cloudUploadGallery){files.forEach(file=>window.cloudUploadGallery(file));e.target.value='';return}const existing=read(KEY.gallery,[]);let remaining=files.length;files.forEach(file=>{const reader=new FileReader();reader.onload=()=>{existing.push({name:file.name,data:reader.result,time:new Date().toISOString()});remaining--;if(!remaining){write(KEY.gallery,existing.slice(-30));renderGallery();addNotification('Gallery updated',files.length+' image(s) added.');toast('Photos added')}};reader.readAsDataURL(file)});e.target.value=''}
-function renderGallery(){const grid=document.getElementById('galleryGrid'),items=read(KEY.gallery,[]);grid.innerHTML=items.length?items.map((x,i)=>`<div class="gallery-item"><img src="${x.data}" alt="${escapeHtml(x.name)}"><div class="gallery-tools"><button onclick="event.stopPropagation();deleteGallery(${i})">🗑️</button></div></div>`).join(''):'<div class="gallery-empty">No photos yet. Use “Add Photos” to add images from your phone.</div>'}
-function deleteGallery(i){const items=read(KEY.gallery,[]);items.splice(i,1);write(KEY.gallery,items);renderGallery();toast('Photo removed')}
-
-function toggleSwitch(el){el.classList.toggle('on');write(KEY.settings,{switches:[...document.querySelectorAll('.switch')].map(x=>x.classList.contains('on'))})}
-function renderAdmin(){document.getElementById('statMessages').textContent=getChats().length;document.getElementById('statGallery').textContent=read(KEY.gallery,[]).length;document.getElementById('statNotifications').textContent=read(KEY.notifications,[]).length;document.getElementById('statAccount').textContent=read(KEY.account,null)?'Yes':'No'}
-function exportSiteData(){const data={account:read(KEY.account,null),profile:read(KEY.profile,null),chat:getChats(),gallery:read(KEY.gallery,[]),notifications:read(KEY.notifications,[]),contactMessages:read('stanoContactMessages',[])};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='stano-website-data.json';a.click();URL.revokeObjectURL(a.href);toast('Data exported')}
-function resetSiteData(){if(!confirm('Reset all locally stored website data on this device?'))return;Object.values(KEY).forEach(k=>localStorage.removeItem(k));localStorage.removeItem('stanoContactMessages');location.reload()}
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-backdrop.open').forEach(m=>m.classList.remove('open'))});
-document.addEventListener('DOMContentLoaded',()=>{updateUserUI();renderGallery();renderNotificationBadge();const p=read(KEY.profile,null);if(p){document.getElementById('aboutProfileName').textContent=p.name||'Stano Sleezy';document.getElementById('aboutProfileBio').textContent=p.bio||'Web developer • IT & Technology';document.getElementById('aboutAvatar').textContent=(p.name||'S')[0].toUpperCase()}});
-</script>
-  <a href="mydocument.pdf" download style="display:inline-block;background:#007bff;color:white;padding:12px 20px;border-radius:10px;text-decoration:none;">
-  📄 Download My Document
-  </a>
-</body>
-</html>
